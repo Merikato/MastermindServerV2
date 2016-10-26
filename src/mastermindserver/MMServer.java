@@ -2,6 +2,7 @@
 package mastermindserver;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -35,6 +36,7 @@ public class MMServer {
      */
     public void createServerSocket(ServerSocket socket) throws IOException {
         for(;;){ 
+            System.out.println(InetAddress.getLocalHost());
             System.out.println("Waiting for client...");
             Socket client_socket = socket.accept();
             System.out.println("Connected to client at: " + client_socket.getLocalAddress().toString());
