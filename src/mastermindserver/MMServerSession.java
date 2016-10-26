@@ -18,6 +18,8 @@ public class MMServerSession {
     private boolean gameOver = false;
     private int[] colours;
     MMPacket mmPacket;
+    private boolean isTest;
+    private int[] answerSet = new int[4];
     
     /**
      * Constructor initializes an integer array for colours and an MMPacket
@@ -43,7 +45,11 @@ public class MMServerSession {
         byte[] packet= mmPacket.readPacket();
         //System.out.println("Packet: " + Arrays.toString(packet));
         boolean play = false;
-        
+        if(packet[0] == 0x25){
+            System.out.println("closing");
+            mmPacket.closeSocket();
+            return false;
+        }
         //Continue play
         if(packet[0] == 0x00000011){
             play = true;
@@ -67,7 +73,10 @@ public class MMServerSession {
             byte[] testAnswerSet=new byte[4];
             for(int i=0;i<4;i++)
                 testAnswerSet[i]=packet[i];
-                
+            isTest = true;
+            for(int i = 0 ; i < testAnswerSet.length; i++){
+                answerSet[i] = setColour(testAnswerSet[i]);
+            }
             mmPacket.writePacket(testAnswerSet);  
        }     
        return play;
@@ -83,7 +92,9 @@ public class MMServerSession {
         while(playAgain & !mmPacket.getSocket().isClosed()){
             int counter=0;
             setPlayAgainValue();
-            int[] answerSet = createAnswerSet(); //Generate answer set
+            if(!isTest)
+                answerSet = createAnswerSet(); //Generate answer set
+            
             while(!gameOver & !mmPacket.getSocket().isClosed()){
                 // read packet from user.
                 byte[] colorMessage = mmPacket.readPacket();
