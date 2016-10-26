@@ -89,6 +89,7 @@ public class MMServerSession {
                 byte[] colorMessage = mmPacket.readPacket();
                 //Checks if socket was closed and closes it's own.
                 if(colorMessage[0] == 0x25){ //closed socket code
+                    System.out.println("Good-bye!");
                     mmPacket.closeSocket();
                 }
                 System.out.println("received packet: "
