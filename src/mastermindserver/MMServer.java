@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mastermindserver;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- *
- * @author 1432581
+ * MMServer class that runs the server for the game.
+ * 
+ * @author Rafia Anwar, Evan Glicakis, and Seaim Khan
  */
 public class MMServer {
 
@@ -26,14 +22,19 @@ public class MMServer {
         new MMServer().createServerSocket(ss);
     }
     
-    public MMServer() throws IOException {
-//        socket = new ServerSocket(50000);
-//        createServerSocket(socket);
-    }
+    /**
+     * No-parameter default constructor.
+     */
+    public MMServer() throws IOException {}
     
+    /**
+     * Creates the server socket that will run 24/7 and wait for a client.
+     * 
+     * @param socket The server socket
+     * @throws IOException if unable to create socket.
+     */
     public void createServerSocket(ServerSocket socket) throws IOException {
-        for(;;){
-        //    System.out.println(InetAddress.getLocalHost());
+        for(;;){ 
             System.out.println("Waiting for client...");
             Socket client_socket = socket.accept();
             System.out.println("Connected to client at: " + client_socket.getLocalAddress().toString());
