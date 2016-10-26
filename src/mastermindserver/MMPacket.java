@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * MMPacket class that handles the sending and receiving of packets.
@@ -66,7 +67,7 @@ public class MMPacket {
             if((bytes = in.read(byteBuffer, total_bytes, 
                     BUFSIZE - total_bytes))== -1){
                 System.out.println("Packet: \n" + (bytes));
-                //throw new SocketException("Connection Closed");
+                throw new SocketException("Connection closed...");
             }
             total_bytes += bytes;
         }

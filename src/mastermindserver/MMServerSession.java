@@ -41,7 +41,7 @@ public class MMServerSession {
     private boolean setPlayAgainValue() throws IOException{
         System.out.println("Waiting for play again value...");
         byte[] packet= mmPacket.readPacket();
-        System.out.println("Packet: " + Arrays.toString(packet));
+        //System.out.println("Packet: " + Arrays.toString(packet));
         boolean play = false;
         
         //Continue play
@@ -80,13 +80,17 @@ public class MMServerSession {
      * @throws IOException if unable to read/write packets concerning game.
      */
     public void action() throws IOException{        
-        while(playAgain && !mmPacket.getSocket().isClosed()){
+        while(playAgain & !mmPacket.getSocket().isClosed()){
             int counter=0;
             setPlayAgainValue();
             int[] answerSet = createAnswerSet(); //Generate answer set
             while(!gameOver & !mmPacket.getSocket().isClosed()){
                 // read packet from user.
                 byte[] colorMessage = mmPacket.readPacket();
+                //Checks if socket was closed and closes it's own.
+                if(colorMessage[0] == 0x25){ //closed socket code
+                    mmPacket.closeSocket();
+                }
                 System.out.println("received packet: "
                         + Arrays.toString(colorMessage));
                 //check if msg is color 
@@ -152,9 +156,12 @@ public class MMServerSession {
                         System.out.println("Sent answer set to client");
                         mmPacket.writePacket(resp);
                     }
+                    
                 }     
             }
-        }  
+        }
+       
+        
     }
     
     /**
