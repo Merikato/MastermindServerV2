@@ -18,7 +18,7 @@ public class MMServerSession {
     private boolean gameOver = false;
     private int[] colours;
     MMPacket mmPacket;
-    private boolean isTest;
+    private boolean isTest = false;
     private int[] answerSet = new int[4];
     
     /**
