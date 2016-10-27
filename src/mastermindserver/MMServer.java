@@ -39,11 +39,13 @@ public class MMServer {
             System.out.println(InetAddress.getLocalHost());
             System.out.println("Waiting for client...");
             Socket client_socket = socket.accept();
-            System.out.println("Connected to client at: " + client_socket.getLocalAddress().toString());
+            System.out.println("Connected to client at: " + client_socket.getInetAddress());
             if(client_socket != null){
                 MMPacket mmp = new MMPacket(client_socket);
                 //send an OK message to draw board
+                
                 Session = new MMServerSession(mmp);
+                
                 Session.action();
                 client_socket.close();
             }          
